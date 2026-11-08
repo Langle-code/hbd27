@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday — 27</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@500&display=swap">
+<style>
+:root{--ground:#F4D3DC;--ink:#6E0F33;--page:#EBC3CF;--soft:#8F2A4F;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#2B0B17;--ink:#F4D3DC;--page:#1D0610;--soft:#D9A3B5;color-scheme:dark}}
+:root[data-theme="dark"]{--ground:#2B0B17;--ink:#F4D3DC;--page:#1D0610;--soft:#D9A3B5;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--page);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;padding:24px 16px}
+.card{width:100%;max-width:420px;aspect-ratio:5/7;background:var(--ground);border-radius:4px;box-shadow:0 18px 50px rgba(110,15,51,.25);position:relative;overflow:hidden}
+.face{position:absolute;inset:0;padding:8% 9%;display:flex;flex-direction:column;justify-content:space-between;transition:opacity .6s ease,transform .6s ease}
+.face[hidden]{display:none}
+.face.out{opacity:0;transform:translateY(-8px)}
+.top{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.28em;text-transform:uppercase}
+.num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:min(62vw,262px);line-height:.78;letter-spacing:-.04em;margin-left:-.03em}
+.rule{height:2px;background:var(--ink);margin:18px 0}
+.row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.line{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(22px,6.4vw,27px);line-height:1.2;margin:0;max-width:15em}
+.btn{font:inherit;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ground);background:var(--ink);border:2px solid var(--ink);padding:0 22px;min-height:48px;min-width:48px;border-radius:999px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:focus-visible{outline:3px solid var(--soft);outline-offset:3px}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(34px,10vw,46px);line-height:1;margin:0 0 12px}
+p{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.game{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.clock{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(64px,20vw,88px);line-height:1;font-variant-numeric:tabular-nums;transition:opacity 1.2s ease;min-height:1em}
+.clock.faded{opacity:.08}
+.small{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.result{min-height:3.2em}
+.result strong{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;display:block}
+.notice{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(18px,5.4vw,21px);line-height:1.3;min-height:7.8em;margin:0;opacity:0;transition:opacity 1.4s ease}
+.notice.show{opacity:1}
+#bye{justify-content:center}
+.byehb{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(34px,10vw,44px);line-height:1;text-align:center;margin:30px 0 0}
+#bye:not([hidden]) .byehb{animation:rise 1.8s ease 1.4s both}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.snd{min-height:44px;font-size:11px;padding:0 16px}
+.byeline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(24px,7vw,30px);line-height:1.35;margin:0;text-align:center}
+.playing .notice{display:block}
+.playing .intro,.playing .result{display:none}
+.playing .game{margin-top:auto;margin-bottom:auto}
+@media (prefers-reduced-motion:reduce){.face,.clock,.notice{transition:none}.byehb{animation:none!important}}
+</style>
+</head>
+<body>
+<main class="card">
+<section class="face" id="front">
+<div class="top"><span>Happy Birthday</span><span>No. 27</span></div>
+<div>
+<div class="num" aria-label="27">27</div>
+<div class="rule"></div>
+<div class="row">
+<p class="line">Nothing to prove. Plenty to do.</p>
+<button class="btn" id="open" type="button">Open</button>
+</div>
+</div>
+</section>
+<section class="face" id="inside" hidden>
+<div>
+<div class="top" style="margin-bottom:28px"><span>Inside</span><span>No. 27</span></div>
+<div class="intro">
+<h1>Happy birthday.</h1>
+<p>Twenty-seven years in, you’ve earned a small test of character. No prizes. Just you and the clock.</p>
+</div>
+</div>
+<div class="game">
+<div class="small">Stop the clock at 27.00</div>
+<div class="clock" id="clock" aria-hidden="true">0.00</div>
+<p class="notice" id="notice">keep counting,<br>keep running.<br>time continues —<br>and will keep on continuing<br>every morning<br>every evening</p>
+<div class="result" id="result" aria-live="polite"></div>
+<button class="btn" id="go" type="button">Start</button>
+</div>
+</section>
+<section class="face" id="bye" hidden>
+<p class="byeline">Well, this has been an intriguing detour.<br>Now, best be on your way.</p>
+<p class="byehb">Happy birthday.</p>
+</section>
+</main>
+<button class="btn ghost snd" id="snd" type="button">Sound: on</button>
+<script>
+(function(){
+var TARGET=27, SHOW_FOR=5;
+var front=document.getElementById('front'), inside=document.getElementById('inside');
+var clock=document.getElementById('clock'), result=document.getElementById('result'), go=document.getElementById('go'), notice=document.getElementById('notice');
+var t0=0, raf=0, running=false;
+var bye=document.getElementById('bye'), snd=document.getElementById('snd');
+var ac=null, master=null, timer=0, step=0, muted=false, started=false;
+var SC=[293.66,329.63,369.99,440,493.88,587.33,659.25];
+var MEL=[0,2,3,2,4,3,2,1,0,2,3,5,4,3,2,null];
+var BASS=[146.83,123.47,98,110];
+function tone(f,t,dur,peak,type){
+var o=ac.createOscillator(),g=ac.createGain();
+o.type=type;o.frequency.value=f;
+g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+0.04);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.05);
+}
+function note(){
+if(!ac)return;
+var i=step%16,m=MEL[i],t=ac.currentTime+0.05;
+if(m!==null)tone(SC[m],t,2.4,0.08,'triangle');
+if(i%4===0)tone(BASS[i/4],t,3.4,0.1,'sine');
+step++;
+}
+function startMusic(){
+if(muted)return;
+try{
+if(!ac){
+var AC=window.AudioContext||window.webkitAudioContext;
+if(!AC)return;
+ac=new AC();master=ac.createGain();master.gain.value=0;
+var d=ac.createDelay(1),fb=ac.createGain(),lp=ac.createBiquadFilter();
+d.delayTime.value=0.42;fb.gain.value=0.42;lp.type='lowpass';lp.frequency.value=1600;
+master.connect(ac.destination);master.connect(d);d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(ac.destination);
+}
+ac.resume();
+master.gain.cancelScheduledValues(ac.currentTime);
+master.gain.setValueAtTime(master.gain.value,ac.currentTime);
+master.gain.linearRampToValueAtTime(0.5,ac.currentTime+2.5);
+if(!timer){note();timer=setInterval(note,700);}
+}catch(e){}
+}
+snd.addEventListener('click',function(){
+muted=!muted;
+snd.textContent=muted?'Sound: off':'Sound: on';
+if(muted){
+if(timer){clearInterval(timer);timer=0;}
+if(ac){try{master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(master.gain.value,ac.currentTime);master.gain.linearRampToValueAtTime(0,ac.currentTime+0.5);}catch(e){}}
+}else if(started){startMusic();}
+});
+document.addEventListener('visibilitychange',function(){
+if(!ac)return;
+try{if(document.hidden){ac.suspend();}else if(!muted){ac.resume();}}catch(e){}
+});
+function swap(from,to,cb){
+from.classList.add('out');
+setTimeout(function(){
+from.hidden=true;from.classList.remove('out');
+to.hidden=false;to.classList.add('out');void to.offsetWidth;to.classList.remove('out');
+if(cb)cb();
+},650);
+}
+document.getElementById('open').addEventListener('click',function(){
+started=true;startMusic();
+result.textContent='';clock.textContent='0.00';clock.classList.remove('faded');go.textContent='Start';go.hidden=false;
+swap(front,inside,function(){go.focus({preventScroll:true});});
+});
+function tick(){
+var s=(performance.now()-t0)/1000;
+if(s<SHOW_FOR){clock.textContent=s.toFixed(2);}
+else{clock.classList.add('faded');notice.classList.add('show');}
+raf=requestAnimationFrame(tick);
+}
+function verdict(d){
+if(d<0.1)return 'Annoyingly good.';
+if(d<0.5)return 'Close. Unsettlingly close.';
+if(d<1.5)return 'Respectable.';
+if(d<4)return 'Your sense of time is a work in progress.';
+return 'Did you check your phone?';
+}
+go.addEventListener('click',function(){
+if(!running){
+running=true;t0=performance.now();
+result.textContent='';clock.classList.remove('faded');notice.classList.remove('show');inside.classList.add('playing');clock.textContent='0.00';
+go.textContent='Stop';raf=requestAnimationFrame(tick);
+}else{
+var s=(performance.now()-t0)/1000;
+running=false;cancelAnimationFrame(raf);
+clock.classList.remove('faded');notice.classList.remove('show');inside.classList.remove('playing');clock.textContent=s.toFixed(2);
+var d=Math.abs(s-TARGET);
+result.innerHTML='<strong>'+d.toFixed(2)+' s '+(s<TARGET?'early':'late')+'</strong>'+verdict(d);
+go.hidden=true;
+setTimeout(function(){
+swap(inside,bye,function(){
+setTimeout(function(){
+swap(bye,front,function(){document.getElementById('open').focus({preventScroll:true});});
+},5600);
+});
+},4500);
+}
+});
+})();
+</script>
+</body>
+</html>
